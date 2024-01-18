@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{%block title%}
+my items
+{%endblock%}
+{%block content%}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">Price($)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        {%if item.owner.username == username%}
+        <tr>
+            <th scope="row">{{item.pk}}</th>
+            <td>{{item.name}}</td>
+            <td>
+                <img alt="image" style="width:  64px ;" src="{{item.image_url}}">
+            </td>
+            <td>{{item.price}}</td>
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="purchased-item" value="{{ item.name }}">
+                    <button type="submit" class="btn btn-outline-danger">remove</button>
+
+                </form>
+        </tr>
+        {%endif%}
+        {%endfor%}
+    </tbody>
+</table>
+{%endblock%}
